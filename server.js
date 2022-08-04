@@ -4,8 +4,11 @@ const port = 9000;
 const mongoose = require('mongoose');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const bodyparser = require("body-parser");
 
-app.use(cors())
+
+app.use(cors());
+app.use(bodyparser.json());
 
 const loginRouter = require ('./routes/login');
 const conceptRouter = require('./routes/concept');
