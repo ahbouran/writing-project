@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
+import DashboardTopic from './DashboardTopic';
 
 function Dashboard() {
   const [topics, setTopics] = useState([]);
-  console.log('topics', topics)
-  const getTopics = (e) => {
-    e.preventDefault();
-    return axios.get('http://localhost:9000/topic')
-    .then((res) => console.log('res', setTopics(res.data)))
-  }
-
-  const listTopics = () => {
-    return <h2>something</h2>
-  }
   
+  useEffect (() => { 
+    axios.get('http://localhost:9000/topic')
+    .then((res) => {
+      setTopics(res.data)
+    })
+    .catch(err => console.log('err in data', err))
+  } , [])
+
+
+  const listTopics = topics.map((elm) => {
+  return <DashboardTopic 
+    key={elm._id} 
+    name={elm.name}
+    id={elm._id}
+    />
+  })
+  
+
   const addNewTopic = (e) => {
     e.preventDefault();
     const newTopicName = e.target.name.value;
@@ -24,9 +33,12 @@ function Dashboard() {
     .catch(err => console.log(err.response));
   }
 
+
+
+ 
   return (
+
     <div>
-     
       <h1>Dashboard</h1>
       <form onSubmit={addNewTopic}>
         <label htmlFor="topic-name">Topic Name</label><br/>
@@ -34,13 +46,14 @@ function Dashboard() {
         <button type="submit">Submit New Topic</button> 
       </form>
       <br></br><br></br>
-      <ul>
-        <h1>List of Topics You Have</h1>
-        {listTopics()}
-      </ul>
-
+      
+      <h1>List of Topics You Have</h1>
+        <ul>
+          {listTopics}
+        </ul>
+        
     </div>
   );
 }
 
-export default Dashboard;
+export default Dashboard
