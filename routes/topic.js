@@ -3,7 +3,9 @@ const router = express.Router();
 const Topic = require('../models/topics');
 
 router.get('/', (req, res) => {
-  res.send('This is where the topics will be')
+  Topic.find()
+  .then(topics => res.json(topics))
+  .catch(err => res.status(400).json('Error: ' + err))
 });
 
 router.post('/', async (req, res) => {
