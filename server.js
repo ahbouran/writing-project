@@ -5,7 +5,16 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const bodyparser = require("body-parser");
+const { createServer } = require('http');
+const { Server } = require('socket.io');
 
+const httpServer = createServer(app);
+
+const io = new Server(httpServer)
+
+io.on('connection', (socket) => {
+  console.log('someone is listening in.')
+})
 
 app.use(cors());
 app.use(bodyparser.json());
@@ -17,15 +26,13 @@ const dashboardRouter = require('./routes/dashboard');
 
 connectDB();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
-
 app.use('/login', loginRouter);
 app.use('/concept', conceptRouter);
 app.use('/topic', topicRouter);
 app.use('/dashboard', dashboardRouter);
 
-app.listen(port, () => {
+
+
+httpServer.listen(port, () => {
   console.log(`App is listening on port ${port}`)
 })

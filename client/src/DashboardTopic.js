@@ -3,10 +3,7 @@ import axios from 'axios';
 
 function DashboardTopic(props) {
 
-  const deleteTopic = (topicId, e) => {
-    console.log('e', e)
-    console.log('topicId', topicId)
-    console.log('This is in the delete topic function')
+  const deleteTopic = (topicId) => {
     axios.delete(`http://localhost:9000/topic/${topicId}`)
   }
 

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
 import DashboardTopic from './DashboardTopic';
+const { io } = require('socket.io-client');
+const socket = io();
+
+socket.on('addNewTopic', () => {
+  console.log('adding new topic involving sockets?')
+})
 
 function Dashboard() {
   const [topics, setTopics] = useState([]);

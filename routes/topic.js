@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
 
   try {
     await newTopic.save()
-    res.status(201).json(newTopic);
+    console.log('Topic added')
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
 router.delete('/:_id', (req, res) => {
   Topic.deleteOne(req.params)
   .then(() => console.log('Topic deleted'))
-  .catch((err) => console.log.og('error'))
+  .catch((err) => console.log('error:', err))
 });
 
 
