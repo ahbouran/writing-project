@@ -4,7 +4,7 @@ import axios from 'axios';
 function DashboardTopic(props) {
 
   const deleteTopic = (topicId) => {
-    axios.delete(`http://localhost:9000/topic/${topicId}`)
+    axios.delete(`/topic/${topicId}`)
   }
 
 

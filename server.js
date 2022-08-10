@@ -3,10 +3,10 @@ const app = express();
 const port = 9000;
 const mongoose = require('mongoose');
 const cors = require('cors');
-const connectDB = require('./config/db');
 const bodyparser = require("body-parser");
 const { createServer } = require('http');
 const { Server } = require('socket.io');
+require('dotenv').config()
 
 const httpServer = createServer(app);
 
@@ -24,7 +24,38 @@ const conceptRouter = require('./routes/concept');
 const topicRouter = require('./routes/topic');
 const dashboardRouter = require('./routes/dashboard');
 
-connectDB();
+
+async function run() {
+  try {
+    await mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
+    
+    const connection = mongoose.connection;
+
+    console.log('MongoDB is connected')
+    console.log('Setting change streams');
+    const topicsChangeStream = connection.collection('topics').watch();
+
+    topicsChangeStream.on('change', (change) => {
+      switch(change.operationType) {
+        case 'insert':
+          const newTopic = {
+            _id: change.fullDocument._id,
+            name: change.fullDocument.name
+          };
+
+          io.of('/topic').emit('addTopic', newTopic)
+      }
+    })
+    
+
+  } catch (err) {
+    console.log(err.message)
+    process.exit(1)
+  }
+}
+
+run()
+
 
 app.use('/login', loginRouter);
 app.use('/concept', conceptRouter);

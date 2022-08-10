@@ -4,7 +4,7 @@ import DashboardTopic from './DashboardTopic';
 const { io } = require('socket.io-client');
 const socket = io();
 
-socket.on('addNewTopic', () => {
+socket.on('addTopic', (newTopic) => {
   console.log('adding new topic involving sockets?')
 })
 
@@ -12,7 +12,7 @@ function Dashboard() {
   const [topics, setTopics] = useState([]);
   
   useEffect (() => { 
-    axios.get('http://localhost:9000/topic')
+    axios.get('/topic')
     .then((res) => {
       setTopics(res.data)
     })
@@ -32,7 +32,7 @@ function Dashboard() {
   const addNewTopic = (e) => {
     e.preventDefault();
     const newTopicName = e.target.name.value;
-    return axios.post('http://localhost:9000/topic', {
+    return axios.post('/topic', {
       name: newTopicName
     })
     .then((res) => console.log("res", res))
