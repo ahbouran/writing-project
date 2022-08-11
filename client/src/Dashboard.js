@@ -14,12 +14,10 @@ function Dashboard() {
   });
 
   socket.on('deleteTopic', (id) => {
-    console.log('myellow')
     const updatedTopics = topics.filter((topic) => {
       return topic._id !== id
     });
 
-    console.log('updated topics array', updatedTopics)
 
     setTopics(updatedTopics)
   });
@@ -31,8 +29,6 @@ function Dashboard() {
     })
     .catch(err => console.log('err in data', err))
   } , []);
-
-  console.log('topics outside useeffect', topics)
 
   const listTopics = topics.map((elm) => {
   return <DashboardTopic 
