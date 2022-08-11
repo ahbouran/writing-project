@@ -58,7 +58,7 @@ async function run() {
           break
         
         case 'delete':
-          io.emit('deleteTopic,', change.documentKey._id)
+          io.emit('deleteTopic', change.documentKey._id)
           break;
       }
     })

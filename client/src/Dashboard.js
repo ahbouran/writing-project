@@ -11,7 +11,7 @@ function Dashboard() {
   
   socket.on('addTopic', (newTopic) => {
     setTopics([...topics, newTopic])
-  })
+  });
 
   socket.on('deleteTopic', (id) => {
     console.log('myellow')
@@ -22,7 +22,7 @@ function Dashboard() {
     console.log('updated topics array', updatedTopics)
 
     setTopics(updatedTopics)
-  })
+  });
 
   useEffect (() => { 
     axios.get('/topic')
@@ -30,7 +30,7 @@ function Dashboard() {
       setTopics(res.data)
     })
     .catch(err => console.log('err in data', err))
-  } , [])
+  } , []);
 
   console.log('topics outside useeffect', topics)
 
@@ -39,8 +39,9 @@ function Dashboard() {
     key={elm._id} 
     name={elm.name}
     id={elm._id}
+    topics={topics}
     />
-  })
+  });
   
 
   const addNewTopic = (e) => {
@@ -51,7 +52,7 @@ function Dashboard() {
     })
     .then((res) => console.log("res", res))
     .catch(err => console.log(err.response));
-  }
+  };
 
 
 
