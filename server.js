@@ -10,10 +10,20 @@ require('dotenv').config()
 
 const httpServer = createServer(app);
 
-const io = new Server(httpServer)
+const io = new Server(httpServer, {
+  cors: {
+    origin: `http://localhost:3000`,
+    credentials: true,
+    methods: ['GET', 'POST']
+  }
+})
 
 io.on('connection', (socket) => {
   console.log('someone is listening in.')
+})
+
+io.on('disconnect', () => {
+  console.log('someone disconnected!')
 })
 
 app.use(cors());
@@ -23,6 +33,7 @@ const loginRouter = require ('./routes/login');
 const conceptRouter = require('./routes/concept');
 const topicRouter = require('./routes/topic');
 const dashboardRouter = require('./routes/dashboard');
+const { disconnect } = require('process');
 
 
 async function run() {
@@ -43,7 +54,12 @@ async function run() {
             name: change.fullDocument.name
           };
 
-          io.of('/topic').emit('addTopic', newTopic)
+          io.emit('addTopic', newTopic);
+          break
+        
+        case 'delete':
+          io.emit('deleteTopic,', change.documentKey._id)
+          break;
       }
     })
     

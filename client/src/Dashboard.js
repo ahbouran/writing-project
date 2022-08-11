@@ -2,15 +2,28 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
 import DashboardTopic from './DashboardTopic';
 const { io } = require('socket.io-client');
-const socket = io();
+const socket = io('http://localhost:9000/');
 
-socket.on('addTopic', (newTopic) => {
-  console.log('adding new topic involving sockets?')
-})
+
 
 function Dashboard() {
   const [topics, setTopics] = useState([]);
   
+  socket.on('addTopic', (newTopic) => {
+    setTopics([...topics, newTopic])
+  })
+
+  socket.on('deleteTopic', (id) => {
+    console.log('myellow')
+    const updatedTopics = topics.filter((topic) => {
+      return topic._id !== id
+    });
+
+    console.log('updated topics array', updatedTopics)
+
+    setTopics(updatedTopics)
+  })
+
   useEffect (() => { 
     axios.get('/topic')
     .then((res) => {
@@ -19,6 +32,7 @@ function Dashboard() {
     .catch(err => console.log('err in data', err))
   } , [])
 
+  console.log('topics outside useeffect', topics)
 
   const listTopics = topics.map((elm) => {
   return <DashboardTopic 

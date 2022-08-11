@@ -7,7 +7,6 @@ function DashboardTopic(props) {
     axios.delete(`/topic/${topicId}`)
   }
 
-
   return (
     <li>
       {props.name}
