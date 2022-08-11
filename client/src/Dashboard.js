@@ -8,6 +8,7 @@ const socket = io('http://localhost:9000/');
 
 function Dashboard() {
   const [topics, setTopics] = useState([]);
+  const [topic, setTopic]= useState('');
   
   socket.on('addTopic', (newTopic) => {
     setTopics([...topics, newTopic])
@@ -42,12 +43,15 @@ function Dashboard() {
 
   const addNewTopic = (e) => {
     e.preventDefault();
-    const newTopicName = e.target.name.value;
-    return axios.post('/topic', {
+    
+    const newTopicName = topic;
+    axios.post('/topic', {
       name: newTopicName
     })
     .then((res) => console.log("res", res))
     .catch(err => console.log(err.response));
+    
+    setTopic('');
   };
 
 
@@ -59,7 +63,13 @@ function Dashboard() {
       <h1>Dashboard</h1>
       <form onSubmit={addNewTopic}>
         <label htmlFor="topic-name">Topic Name</label><br/>
-        <input type="text" name="name" placeholder="Insert topic name"></input>
+        <input 
+        type="text" 
+        name="name" 
+        placeholder="Insert topic name" 
+        onChange={event => setTopic(event.target.value)}
+        value={topic}
+        />
         <button type="submit">Submit New Topic</button> 
       </form>
       <br></br><br></br>

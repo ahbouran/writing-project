@@ -32,5 +32,17 @@ router.delete('/:_id', (req, res) => {
   .catch((err) => console.log('error:', err))
 });
 
+router.patch('/:_id', async(req, res) => {
+  const filter = { _id: req.params._id};
+  const update = { name: req.body.name };
+
+
+  let doc = await Topic.findOneAndUpdate(filter, update, {
+    new: true
+  });
+
+})
+
+
 
 module.exports = router;
