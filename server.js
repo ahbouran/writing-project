@@ -60,6 +60,14 @@ async function run() {
         case 'delete':
           io.emit('deleteTopic', change.documentKey._id)
           break;
+        
+        case 'update':
+          const updatedTopic = {
+            _id: change.documentKey._id,
+            name: change.updateDescription.updatedFields.name
+          }
+          io.emit('updateTopic', updatedTopic)
+          break;
       }
     })
     
