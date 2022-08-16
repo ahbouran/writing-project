@@ -27,25 +27,25 @@ function Dashboard() {
   socket.on('updateTopic', (updatedTopic) => {
     if (topics.length) {
   
-    let currentTopics = [...topics]
+    let currentTopics = [...topics];
         
-    const index = currentTopics.map(topic => topic._id).indexOf(`${updatedTopic._id}`)
+    const index = currentTopics.map(topic => topic._id).indexOf(`${updatedTopic._id}`);
     
-    currentTopics.splice(index, 1, updatedTopic)
+    currentTopics.splice(index, 1, updatedTopic);
     
-    setTopics(currentTopics)
+    setTopics(currentTopics);
     }
   })
 
   useEffect(() => {
     fetchTopics();
 
-  }, [])
+  }, []);
 
   async function fetchTopics() {
     const res = await axios.get('/topic');
     setTopics(res.data)
-  }
+  };
 
 
   const listTopics = topics.map((elm) => {

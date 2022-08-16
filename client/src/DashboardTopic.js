@@ -10,15 +10,15 @@ function DashboardTopic(props) {
 
   const deleteTopic = (topicId) => {
     axios.delete(`/topic/${topicId}`)
-  }
+  };
 
   const renameTopic = (topicId, nameChange) => {
     axios.patch(`topic/${topicId}`, {
       name: nameChange
-     })
-    setIsEditing(false) 
-    setTopic('')
-  }
+     });
+    setIsEditing(false);
+    setTopic('');
+  };
 
   return (
 
@@ -37,7 +37,7 @@ function DashboardTopic(props) {
         </>    
             : 
             <> 
-            {props.name}
+            <a href={'/dashboard/' + props.id}>{props.name}</a>
             <button onClick={() => deleteTopic(props.id)} type='delete'>Delete Topic</button>
             <button onClick={() => setIsEditing(true)}>Rename Topic</button>
             </>
