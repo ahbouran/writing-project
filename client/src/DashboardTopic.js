@@ -37,7 +37,7 @@ function DashboardTopic(props) {
         </>    
             : 
             <> 
-            <a href={'/dashboard/' + props.id}>{props.name}</a>
+            <a href={`/dashboard/${props.id}`}>{props.name}</a>
             <button onClick={() => deleteTopic(props.id)} type='delete'>Delete Topic</button>
             <button onClick={() => setIsEditing(true)}>Rename Topic</button>
             </>
